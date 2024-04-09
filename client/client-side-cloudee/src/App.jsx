@@ -11,40 +11,53 @@ function App() {
     baseURL : 'http://localhost:3000'
   });
 
-  const [userFiles, setUserFiles] = useState() // ARray of files
+  const [userFiles, setUserFiles] = useState([]) // Array of files
   
-  const handleSubmit = (userFile)=>{
-    let formData = new FormData();
-    formData.append('file', userFile);
+
+  const basicGetTest = ()=>{
+  API.get('/')
+  .then(response =>{ //Promise approach
+    console.log('Get successful: ', response.data);
+  })
+  .catch(error=>{
+    console.log('Get ERROR: ', error);})
+  };
 
 
-    // Post to the server
-    API.post('/upload_file_single', formData)
-    .then(response => {
-      console.log('File upload successfully: ', response.data);
+  const handleSubmit = async (event) =>{
+
+    event.preventDefault();
+
+    const formData = new FormData();
+    [...userFiles].map((file, ind)=>{
+      formData.append('file', file);
     })
-    .catch(error => {
-      console.log('File upload ERROR: ', error);
-    })
-    
-  }
+
+
+    try{
+      const response = await API.post('/upload_files', formData); //async approach to api calls
+      console.log(response.data);
+    } catch(error) {
+      console.log("Error uploading: ", error);
+    }
+
+
+  };
+
+
+
+
 
   return (
     <>
       <h1>Hello World</h1>
-      <button onClick={()=>{
-        API.get('/')
-        .then(response =>{
-          console.log('Get successful: ', response.data);
-        })
-        .catch(error=>{
-          console.log('Get ERROR: ', error);
-        })
-      }}>Get Test</button>
-      <form onSubmit={(event)=> {event.preventDefault(); handleSubmit(userFiles);}} method="POST" encType="multipart/form-data">
-        <input id='single-file' display="display: none;" type='file' name='file' onChange = {(e)=>{
+      <button onClick={basicGetTest}>Get Test</button>
+      <button onClick={()=>{console.log(userFiles)}}> Console.Log userFiles</button>
+      <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
+        <input id='file-input' display="display: none;" multiple type='file' name='file' onChange = {(e)=>{
           console.log("type: " + e.type);
-          setUserFiles(e.target.files[0]);
+          console.log(e.target.files);
+          setUserFiles(e.target.files);
         }}/>
         <input type='submit' value='Submit'></input>
       </form>
