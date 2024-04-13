@@ -1,0 +1,17 @@
+
+body{
+    background-color: rgb(77, 77, 77);
+}
+
+.flexContainer{
+    display: flex;
+    height:25vh;
+    max-width:90vw;
+    gap:5%;
+
+}
+
+.UserBtn {
+    border-radius:5vw;
+    flex:auto;
+}

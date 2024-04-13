@@ -12,6 +12,19 @@ function App() {
   });
 
   const [userFiles, setUserFiles] = useState([]) // Array of files
+
+  const [folders, setFolders] = useState([]);
+  const [folderName, setFolderName] = useState(''); // Name of folder the user wants to create
+
+  const FolderComponent = ()=>{
+    return(
+      <ul>
+        {folders.map((folder,index)=> (<li key={index}>{folder}</li>))}
+      </ul>
+    );
+  };
+
+
   
 
   const basicGetTest = ()=>{
@@ -25,7 +38,6 @@ function App() {
 
 
   const handleSubmit = async (event) =>{
-
     event.preventDefault();
 
     const formData = new FormData();
@@ -33,15 +45,12 @@ function App() {
       formData.append('file', file);
     })
 
-
     try{
       const response = await API.post('/upload_files', formData); //async approach to api calls
       console.log(response.data);
     } catch(error) {
       console.log("Error uploading: ", error);
     }
-
-
   };
 
 
@@ -54,13 +63,31 @@ function App() {
       <button onClick={basicGetTest}>Get Test</button>
       <button onClick={()=>{console.log(userFiles)}}> Console.Log userFiles</button>
       <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
-        <input id='file-input' display="display: none;" multiple type='file' name='file' onChange = {(e)=>{
+
+        <input id='file-input'  multiple type='file' name='file' onChange = {(e)=>{
           console.log("type: " + e.type);
           console.log(e.target.files);
           setUserFiles(e.target.files);
         }}/>
-        <input type='submit' value='Submit'></input>
+
+        <input type='submit' value='Submit'/>
       </form>
+
+      
+      <form onSubmit={(e)=>{
+        e.preventDefault();
+        setFolders([...folders, e.target.foldername.value]);
+      }}>
+
+        <label htmlFor='folder-name-input'>Create Folder:</label>
+
+        <input id='folder-name-input' type='text' name='foldername' onChange={(e) =>{
+          setFolderName(e.target.foldername);
+        }}/>
+
+        <input type='submit' value='Create'/>
+      </form>
+      <FolderComponent/>
 
     </>
   )
