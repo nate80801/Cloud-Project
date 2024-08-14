@@ -1,0 +1,68 @@
+Sure, here's an example with separate router modules for users and products:
+
+1. **users.js**:
+   ```javascript
+   // users.js
+
+   const express = require('express');
+   const router = express.Router();
+
+   // Define user routes
+   router.get('/', (req, res) => {
+     res.send('List of users');
+   });
+
+   router.get('/:userId', (req, res) => {
+     const userId = req.params.userId;
+     res.send(`User ID: ${userId}`);
+   });
+
+   module.exports = router;
+   ```
+
+2. **products.js**:
+   ```javascript
+   // products.js
+
+   const express = require('express');
+   const router = express.Router();
+
+   // Define product routes
+   router.get('/', (req, res) => {
+     res.send('List of products');
+   });
+
+   router.get('/:productId', (req, res) => {
+     const productId = req.params.productId;
+     res.send(`Product ID: ${productId}`);
+   });
+
+   module.exports = router;
+   ```
+
+3. **app.js**:
+   ```javascript
+   // app.js
+
+   const express = require('express');
+   const app = express();
+   const usersRouter = require('./routes/users');
+   const productsRouter = require('./routes/products');
+
+   // Mount the users router at '/users'
+   app.use('/users', usersRouter);
+
+   // Mount the products router at '/products'
+   app.use('/products', productsRouter);
+
+   const port = 3000;
+   app.listen(port, () => {
+     console.log(`Server is listening on port ${port}`);
+   });
+   ```
+
+With this setup:
+- Requests to `/users` and its sub-paths will be handled by the routes defined in `users.js`.
+- Requests to `/products` and its sub-paths will be handled by the routes defined in `products.js`.
+
+You can expand this pattern by creating additional router modules for other sets of routes and mounting them in your main application file as needed.

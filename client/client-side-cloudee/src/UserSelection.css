@@ -12,6 +12,7 @@ body{
 }
 
 .UserBtn {
+    display:block;
     border-radius:5vw;
     flex:auto;
 }

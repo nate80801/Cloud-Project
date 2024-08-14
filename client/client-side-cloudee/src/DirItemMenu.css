@@ -1,0 +1,42 @@
+.meatball-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 20%;
+}
+
+.meatball-icon {
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: #ececec;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 0;
+    width: 100%;
+}
+
+
+.meatball-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: rgb(75, 66, 66);
+    border: 1px solid #ccc;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 150px;
+}
+
+.meatball-dropdown li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.meatball-dropdown li:hover {
+    background-color: #a87c7c;
+}
